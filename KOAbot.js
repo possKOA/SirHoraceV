@@ -61,7 +61,7 @@ var breakRunning = false;
 var timeLeft;
 var timerID;
 var intervalID;
-
+var editMe = "This text needs to be changed asap and we don't want to have to restart the bot while doing so";
 
 client.on('ready', () => {
     //Start-up Message
@@ -100,12 +100,19 @@ client.on('message', message => {
         args[0] = args[0].toLowerCase();
       }
       if (args[0] === 'raid' || args[0] === 'raids'){
-        message.channel.send(":tomato: **Pomodoro Raids** :tomato:\nThis is a group activity known as 'Raiding' where members of KOA all join a synchronised timer (<https://cuckoo.team/koa>) and do productive work together, using the Pomodoro Technique."
-        + " A lot of people find it easier to work knowing that other people are working 'with them', and it definitely fosters some community spirit between members that join.");
+        fs.readFile('./txt/raid.txt', 'utf8', function (err,data) {
+            if (err) {
+              return console.log(err);
+            }
+            message.channel.send(data);
+          });
       } else if (args[0] === 'habitica' || args[0] === 'habitca'){
-        message.channel.send("Habitica is an application and site that allows you to track your daily tasks, habits and to-do's,"
-        + " but organises them into an RPG game to give you a bit more incentive to get things done."
-        + " You can join parties and go on quests, and most of the people here use it for self-improvement and keeping track of things.");
+        fs.readFile('./txt/habitica.txt', 'utf8', function (err,data) {
+            if (err) {
+              return console.log(err);
+            }
+            message.channel.send(data);
+          });
       } else if (args[0] === 'clan' || args[0] === 'clans'){
         message.channel.send("A KOA Clan is essentially just a Habitica party that is officially endorsed by the Knights of Academia."
         + " They have a party chat on Habitica, and also a Clan channel on the discord server."
@@ -136,7 +143,44 @@ client.on('message', message => {
         + ":small_orange_diamond: **Hustle 'N' Bustle** - led by hannahananaB :necktie:\n:small_orange_diamond: **Social Sciences** - led by Eric :two_men_holding_hands:\n:small_orange_diamond: **Wellness** - led by QueenWolf :blush:");
       } else if (args[0] === 'habitashia'){
         message.channel.send("Please spell it correctly. It's really not that hard. H - A - B - I - T - I - C - A.");
-      }
+      } else if (args[0] === 'editme') {
+        message.channel.send(editMe);
+      } else if (args[0] === 'edit')
+        switch(args[1]){
+            case 'editme':
+                message.channel.send("editing");
+                var tempArgs = args;
+                tempArgs.splice(0, 1);
+                //tempArgs.splice(1, 1);
+                message.channel.send(tempArgs);
+                tempArgs = tempArgs.toString();
+                editMe = args[1]
+                message.channel.send(args[0] + " successfully edited!");
+                break;
+            case 'raid':
+                var tempArgs = args;
+                message.channel.send(args[1] + " successfully edited!");
+                tempArgs.splice(0, 2);
+                fs.writeFile('./txt/raid.txt', tempArgs.toString().replace(/,/g, " "), (err) => {  
+                    // throws an error, you could also catch it here
+                    if (err) throw err;
+                
+                    // success case, the file was saved
+                    console.log('Text saved!');
+                });
+                break;
+            case 'habitica':
+            var tempArgs = args;
+            message.channel.send(args[1] + " successfully edited!");
+            tempArgs.splice(0, 2);
+            fs.writeFile('./txt/habitica.txt', tempArgs.toString().replace(/,/g, " "), (err) => {  
+                // throws an error, you could also catch it here
+                if (err) throw err;
+            
+                // success case, the file was saved
+                console.log('Text saved!');
+            });
+        }
     }
 
     //!pom/!p, to start a pomodoro session
