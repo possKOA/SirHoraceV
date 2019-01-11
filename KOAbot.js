@@ -37,11 +37,11 @@ var dummy = {
     step: 1,
     name: 'dummy',
     textView: 'Value of %name% : %value%',
-    textPlus: 'The value of %name% has been incremented. New value : %value%.',
-    textMinus: 'The value of %name% has been decremented. New value : %value%.',
+    textPlus: ':white_check_mark: The pomodoro count has been incremented. New value : %value%.',
+    textMinus: ':white_check_mark: The pomodoro count has been decremented. New value : %value%.',
     textReset: 'The value of %name% has been reset to %value%.',
     textValue: 'The value of %name% has been set to %value%.',
-    textLeaderboard: 'Current leaderboard for %name% :',
+    textLeaderboard: 'Pomodoro Challenge Leaderboard :',
     leaderboard: {},
     whitelist: {}
 };
@@ -102,12 +102,12 @@ client.on('message', message => {
       if (args[0] === 'raid' || args[0] === 'raids'){
         message.channel.send(":tomato: **Pomodoro Raids** :tomato:\nThis is a group activity known as 'Raiding' where members of KOA all join a synchronised timer (<https://cuckoo.team/koa>) and do productive work together, using the Pomodoro Technique."
         + " A lot of people find it easier to work knowing that other people are working 'with them', and it definitely fosters some community spirit between members that join.");
-      } else if (args[0] === 'habitica'){
+      } else if (args[0] === 'habitica' || args[0] === 'habitca'){
         message.channel.send("Habitica is an application and site that allows you to track your daily tasks, habits and to-do's,"
         + " but organises them into an RPG game to give you a bit more incentive to get things done."
         + " You can join parties and go on quests, and most of the people here use it for self-improvement and keeping track of things.");
       } else if (args[0] === 'clan' || args[0] === 'clans'){
-        message.channel.send("A KOA Clan is essentially just a Habitica party that exists under the Knights of Academia."
+        message.channel.send("A KOA Clan is essentially just a Habitica party that is officially endorsed by the Knights of Academia."
         + " They have a party chat on Habitica, and also a Clan channel on the discord server."
         + " As per a normal Habitica party, there is a maximum of 30 members per Clan.");
       } else if (args[0] === 'guardian' || args[0] === 'guardians'){
@@ -140,7 +140,7 @@ client.on('message', message => {
     }
 
     //!pom/!p, to start a pomodoro session
-    if (cmd === 'pom' || cmd === 'p') {
+    if (cmd === 'p') {
       if(pomRunning){
         message.channel.send(':x: There is already an active pomodoro!');
         return;
@@ -243,11 +243,11 @@ client.on('message', message => {
           }
             var state = addCounter(message.author.id, args[0]);
             if (state == 1) {
-                message.channel.send('The counter has been correctly added.\r\nYou can use it with ' + prefix + args[0] + ' [ + | - ].');
+                message.channel.send(':white_check_mark: The counter has been correctly added.');
             } else if (state == 2) {
-                message.channel.send('A counter with this name already exists, please choose another one.');
+                message.channel.send(':x: **Error:** A counter with this name already exists, please choose another one.');
             } else if (state == 3) {
-                message.channel.send('Your counter name contains illegal characters. Please match /^[A-Za-z0-9]+$/.');
+                message.channel.send(':x: **Error:** Your counter name contains illegal characters. Please match /^[A-Za-z0-9]+$/.');
             }
         }
     } else if (cmd === 'delcounter' || cmd === 'dc') {
@@ -258,7 +258,7 @@ client.on('message', message => {
         if (args.length == 1) {
             var state = delCounter(message.author.id, args[0]);
             if (state == 1) {
-                message.channel.send('The counter has been correctly deleted.');
+                message.channel.send(':white_check_mark: The counter has been correctly deleted.');
             } else if (state == 2) {
                 message.channel.send('There is no counter with this name.');
             } else if (state == 3) {
@@ -333,7 +333,8 @@ client.on('message', message => {
                       message.channel.send(":x: **Error:** You don't have permission to use this command. Please contact a Guardian.");
                       return;
                     }
-                    if (setValue(counterName, args[0].length == 1 ? "1" : message.content.substring(cmd.length + 2), '-', message.mentions.users)) {
+                    var length = args[0].length;
+                    if (setValue(counterName, length == 1 ? "1" : message.content.substring(cmd.length + 3, cmd.length + 2 + length), '-', message.mentions.users)) {
                         message.channel.send(getTextMinus(counterName));
                     } else {
                         message.channel.send("There was an error parsing your input.");
@@ -582,19 +583,6 @@ function timer(time, session, message){
   function countdown(){
     //Lower timeLeft by 1 second/1000 milliseconds every second
     timeLeft = timeLeft - 1000;
-    /*
-    var mins = Math.floor(Math.round(timeLeft/1000)/60);
-    var secs = (Math.round(timeLeft/1000)) - (mins*60);
-    message.channel.send("Time left in milliseconds: " + timeLeft);
-    message.channel.send(`:timer: There are currently __**${mins}:${secs}**__ minutes left in the work session. :timer:`);
-    */
   }
-  /*
-  function debug(){
-    var mins = Math.floor(Math.round(timeLeft/1000)/60);
-    var secs = (Math.round(timeLeft/1000)) - (mins*60);
-    message.channel.send("Time left in milliseconds: " + timeLeft);
-    message.channel.send(`:timer: There are currently __**${mins}:${secs}**__ minutes left in the work session. :timer:`);
-  }
-  */
+
 }
