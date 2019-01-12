@@ -1,0 +1,7 @@
+The Sectors are the areas of KOA devoted to the various academic fields, each led by their own Sector Leader. There are 6 KOA Sectors in total:
+:small_orange_diamond: **The Arts** - led by Austin :art:
+:small_orange_diamond: **STEM** - led by ChristinaFox :straight_ruler:
+:small_orange_diamond: **Computer Science** - led by Neer :desktop:
+:small_orange_diamond: **Hustle 'N' Bustle** - led by hannahananaB :necktie:
+:small_orange_diamond: **Social Sciences** - led by Eric :two_men_holding_hands:
+:small_orange_diamond: **Wellness** - led by QueenWolf :blush:
