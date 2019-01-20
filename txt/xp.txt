@@ -1,0 +1,1 @@
+On the KOA Server, members are awarded XP for talking in channels. Getting XP allows you to level up, and there are some roles that are only accessible by getting the required level. Keep in mind though, XP is off in #citadel, #bot-interaction, #music-room and #gaming.
